@@ -42,58 +42,78 @@ class Store {
         return products;
     }
 
-    addCategory(name, [description]) {
-        let id = this.categories.length === 0 ? 1 : this.categories.reduce((max, id) => id > max ? id + 1 : max + 1);
+    addCategory(name, description = 'No hay descripción') {
+        let id = this.categories.length === 0 ? 1 : this.categories.reduce((max, category) => category.id > max ? category.id : max, 0) + 1;
         let category = new Category(id, name, description);
+        if(!name) {
+            throw "No es pot crear una categoria sense nom";
+        }
         try {
-            if (this.getCategoryById(category.id) || this.getCategoryByName(name)) {
+            if (this.getCategoryById(category.id) ||
+                this.getCategoryByName(name)) {
                 throw `La categoria a la que es vol afegir te la mateixa id o el mateix nom`;
             }
+        } catch {
             this.categories.push(category);
             return category;
-        } catch {
-            throw(error);
         }
     }
 
     addProduct(payload) {
-        let id = this.products.length === 0 ? 1 : this.products.reduce((max, id) => id > max ? id + 1 : max + 1);
+        let id = this.products.length === 0 ? 1 : this.products.reduce((max, product) => product.id > max ? product.id : max, 0) + 1;
         let product = new Product(id, payload.name, payload.category, payload.price, payload.units);
         if(!product.name ||
-            (!product.category || !this.getCategoryByName()) ||
-            (!product.price || product.price < 0) ||
-            (!product.units < 0)) {
+            !product.category ||
+            !product.price ||
+            typeof product.price !== 'number' ||
+            typeof product.units !== 'number' ||
+            product.price < 0 ||
+            product.units < 0) {
                 throw `Les dades introduïdes són incorrectes`;
             }
+            this.products.push(product);
         return product;
     }
 
     delCategory(id) {
         let category = this.getCategoryById(id);
-        if(category) {
-            throw `No es pot borrar una categoria que té productes`;
+        if(!category) {
+            throw `La categoria no existeix`;
         }
-        this.categories.splice(this.categories.findIndex(category.id));
+        let categoryProducts = this.getProductsByCategory(id);
+        if (categoryProducts.length === 0) {
+            this.categories.splice(this.categories.findIndex( category => category.id === id ));
+        }
+        return category;
     }
 
     delProduct(id) {
-        return Product;
+        let product = this.getProductById(id);
+        if(!product) {
+            throw `El producte no existeix`;
+        }
+        this.products.splice(this.products.findIndex( product => product.id === id ));
+        return product;
     }
 
     totalImport() {
-        return 0;
+        let total = 0;
+        for (let product of this.products) {
+            total += product.price;
+        }
+        return total;
     }
 
     orderByUnitsDesc() {
-        return Product[0];
+        return this.products.sort( (product, nextProduct) => product.units - nextProduct.units );
     }
 
     orderByName() {
-        return Product[0];
+        return this.products.sort( (product, nextProduct) => product.name.localeCompare(nextProduct.name));
     }
 
     underStock(units) {
-        return Product[0];
+        return this.products.filter( product => product.units < units);
     }
 
     toString() {
