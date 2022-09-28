@@ -1,5 +1,6 @@
 const Category = require('./category.class');
 const Product = require('./product.class');
+const datosIni = require('./datosIni.json');
 
 // Aquí la clase Store
 class Store {
@@ -8,6 +9,11 @@ class Store {
         this.name = name,
         this.products = products,
         this.categories = categories
+    }
+
+    init() {
+        this.categories.concat(datosIni.categories);
+        this.products.concat(datosIni.products);
     }
 
     getCategoryById(id) {

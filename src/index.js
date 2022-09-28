@@ -4,11 +4,11 @@
 // Antes hemos haber importado la clase Store para poder usarla
 const Store = require('./store.class');
 const myStore = new Store(1, 'Almacén de ACME')
+myStore.init();
 
 // Añadimos los objetos
 try {
     var catInformatica = myStore.addCategory('Informática')
-    var catInformatica2 = myStore.addCategory('informatica')
 } catch(err) {
     console.error(err)
 }
@@ -56,3 +56,9 @@ myStore.orderByName().forEach(prod=>console.log('- '+prod))
 
 console.log('LISTADO DE PRODUCTOS CON POCAS EXISTENCIAS')
 myStore.underStock(10).forEach(prod=>console.log('- '+prod))
+
+console.log('Categorias de la tienda');
+myStore.categories.forEach(cat => console.log(`- ${cat}`));
+
+console.log('Productos de la tienda')
+myStore.products.forEach(prod => console.log(`- ${prod}`));

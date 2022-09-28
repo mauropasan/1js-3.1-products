@@ -7,6 +7,10 @@ class Category {
         this.description = description
     }
 
+    toString() {
+        return `Categoria: ${this.name}, Descripció: ${this.description}`;
+    }
+
 }
 
 module.exports = Category
