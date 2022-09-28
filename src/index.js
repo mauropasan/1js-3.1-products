@@ -8,6 +8,7 @@ const myStore = new Store(1, 'Almacén de ACME')
 // Añadimos los objetos
 try {
     var catInformatica = myStore.addCategory('Informática')
+    var catInformatica2 = myStore.addCategory('informatica')
 } catch(err) {
     console.error(err)
 }

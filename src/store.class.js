@@ -12,7 +12,7 @@ class Store {
 
     getCategoryById(id) {
         let category = this.categories.find( category => category.id === id );
-        if (category === undefined) {
+        if (!category) {
             throw `No s'ha trovat la categoria amb l'id ${id}`;
         }
         return category;
@@ -20,7 +20,7 @@ class Store {
 
     getCategoryByName(name) {
         let category = this.categories.find( category => category.name.toLowerCase() === name.toLowerCase() );
-        if (category === undefined) {
+        if (!category) {
             throw `No s'ha trovat la categoria amb el nom ${name}`;
         }
         return category;
@@ -28,7 +28,7 @@ class Store {
 
     getProductById(id) {
         let product = this.products.find( product => product.id === id);
-        if (product === undefined) {
+        if (!product) {
             throw `No s'ha trovat el producte amb l'id ${id}`;
         }
         return product;
@@ -36,7 +36,7 @@ class Store {
 
     getProductsByCategory(id) {
         let products = this.products.filter( product => product.category === id);
-        if (products === undefined) {
+        if (!products) {
             throw `No s'han trovat productes que té categoria ${this.getCategoryById(id).name}`;
         }
         return products;
@@ -44,42 +44,45 @@ class Store {
 
     addCategory(name, description = 'No hay descripción') {
         let id = this.categories.length === 0 ? 1 : this.categories.reduce((max, category) => category.id > max ? category.id : max, 0) + 1;
-        let category = new Category(id, name, description);
         if(!name) {
             throw `No es pot crear una categoria sense nom`;
         }
         try {
-            if (this.getCategoryById(category.id) ||
-                this.getCategoryByName(name)) {
-                throw `La categoria a la que es vol afegir te la mateixa id o el mateix nom`;
-            }
+            this.getCategoryByName(name);
+            
         } catch {
+            let category = new Category(id, name, description);
             this.categories.push(category);
-            return category;
+        return category;
         }
+        throw `La categoria a la que es vol afegir te la mateixa id o el mateix nom`;
     }
 
     addProduct(payload) {
         let id = this.products.length === 0 ? 1 : this.products.reduce((max, product) => product.id > max ? product.id : max, 0) + 1;
         let product = new Product(id, payload.name, payload.category, payload.price, payload.units);
-        if(!product.name ||
-            !product.category ||
-            !product.price ||
-            typeof product.price !== 'number' ||
-            typeof product.units !== 'number' ||
-            product.price < 0 ||
-            product.units < 0) {
-                throw `Les dades introduïdes són incorrectes`;
-            }
-            this.products.push(product);
-        return product;
+        try {
+            if(!product.name ||
+                !product.category ||
+                !product.price ||
+                typeof product.price !== 'number' ||
+                typeof product.units !== 'number' ||
+                product.price < 0 ||
+                product.units < 0 ||
+                !Number.isInteger(product.units) ||
+                !this.getCategoryById(payload.category)) {
+                    throw `Les dades introduïdes són incorrectes`;
+                } else {
+                    this.products.push(product);
+                }
+            return product;
+        } catch {
+            throw `Les dades introduïdes son incorrectes`;
+        }
     }
 
     delCategory(id) {
         let category = this.getCategoryById(id);
-        if(!category) {
-            throw `La categoria no existeix`;
-        }
         let categoryProducts = this.getProductsByCategory(id);
         if (categoryProducts.length === 0) {
             this.categories.splice(this.categories.findIndex( category => category.id === id ));
