@@ -46,7 +46,7 @@ class Store {
         let id = this.categories.length === 0 ? 1 : this.categories.reduce((max, category) => category.id > max ? category.id : max, 0) + 1;
         let category = new Category(id, name, description);
         if(!name) {
-            throw "No es pot crear una categoria sense nom";
+            throw `No es pot crear una categoria sense nom`;
         }
         try {
             if (this.getCategoryById(category.id) ||
@@ -83,14 +83,19 @@ class Store {
         let categoryProducts = this.getProductsByCategory(id);
         if (categoryProducts.length === 0) {
             this.categories.splice(this.categories.findIndex( category => category.id === id ));
+        } else {
+            throw `Esta categoria té productes`;
         }
         return category;
     }
 
     delProduct(id) {
         let product = this.getProductById(id);
-        if(!product) {
+        if (!product) {
             throw `El producte no existeix`;
+        }
+        if (product.units > 0) {
+            throw `El producte té stock`;
         }
         this.products.splice(this.products.findIndex( product => product.id === id ));
         return product;
@@ -105,7 +110,7 @@ class Store {
     }
 
     orderByUnitsDesc() {
-        return this.products.sort( (product, nextProduct) => product.units - nextProduct.units );
+        return this.products.sort( (product, nextProduct) => nextProduct.units - product.units );
     }
 
     orderByName() {
