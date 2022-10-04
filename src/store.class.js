@@ -12,9 +12,13 @@ class Store {
     }
 
     init() {
-        this.categories.concat(datosIni.categories);
-        this.products.concat(datosIni.products);
-    }
+        datosIni.categories.forEach(categoryData => {
+            let cat = new Category(categoryData.id, categoryData.name, categoryData.description);
+            this.categories.push(cat)});
+        datosIni.products.forEach(productData => {
+            let prod = new Product(productData.id, productData.name, productData.category, productData.price, productData.units)
+            this.products.push(prod)});
+     }
 
     getCategoryById(id) {
         let category = this.categories.find( category => category.id === id );
