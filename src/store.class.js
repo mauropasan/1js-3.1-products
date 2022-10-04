@@ -19,7 +19,7 @@ class Store {
     getCategoryById(id) {
         let category = this.categories.find( category => category.id === id );
         if (!category) {
-            throw `No s'ha trovat la categoria amb l'id ${id}`;
+            throw `No se ha encontrado la categoria con id ${id}`;
         }
         return category;
     }
@@ -27,7 +27,7 @@ class Store {
     getCategoryByName(name) {
         let category = this.categories.find( category => category.name.toLowerCase() === name.toLowerCase() );
         if (!category) {
-            throw `No s'ha trovat la categoria amb el nom ${name}`;
+            throw `No se ha encontrado la categoria con nombre ${name}`;
         }
         return category;
     }
@@ -35,7 +35,7 @@ class Store {
     getProductById(id) {
         let product = this.products.find( product => product.id === id);
         if (!product) {
-            throw `No s'ha trovat el producte amb l'id ${id}`;
+            throw `No se ha encontrado el producto con id ${id}`;
         }
         return product;
     }
@@ -43,15 +43,15 @@ class Store {
     getProductsByCategory(id) {
         let products = this.products.filter( product => product.category === id);
         if (!products) {
-            throw `No s'han trovat productes que té categoria ${this.getCategoryById(id).name}`;
+            throw `No se ha encontrado productos con la categoria ${this.getCategoryById(id).name}`;
         }
         return products;
     }
 
     addCategory(name, description = 'No hay descripción') {
         let id = this.categories.length === 0 ? 1 : this.categories.reduce((max, category) => category.id > max ? category.id : max, 0) + 1;
-        if(!name) {
-            throw `No es pot crear una categoria sense nom`;
+        if(!name || name === "") {
+            throw `No se puede añadir una categoria sin nombre`;
         }
         try {
             this.getCategoryByName(name);
@@ -69,6 +69,7 @@ class Store {
         let product = new Product(id, payload.name, payload.category, payload.price, payload.units);
         try {
             if(!product.name ||
+                product.name === "" ||
                 !product.category ||
                 !product.price ||
                 typeof product.price !== 'number' ||
@@ -77,13 +78,13 @@ class Store {
                 product.units < 0 ||
                 !Number.isInteger(product.units) ||
                 !this.getCategoryById(payload.category)) {
-                    throw `Les dades introduïdes són incorrectes`;
+                    throw `Los datos introducidos són incorrectos`;
                 } else {
                     this.products.push(product);
                 }
             return product;
         } catch {
-            throw `Les dades introduïdes son incorrectes`;
+            throw `Los datos introducidos són incorrectos`;
         }
     }
 
@@ -93,7 +94,7 @@ class Store {
         if (categoryProducts.length === 0) {
             this.categories.splice(this.categories.findIndex( category => category.id === id ));
         } else {
-            throw `Esta categoria té productes`;
+            throw `Esta categoria tiene productos`;
         }
         return category;
     }
@@ -101,10 +102,10 @@ class Store {
     delProduct(id) {
         let product = this.getProductById(id);
         if (!product) {
-            throw `El producte no existeix`;
+            throw `El producto no existe`;
         }
         if (product.units > 0) {
-            throw `El producte té stock`;
+            throw `El producto tiene stock`;
         }
         this.products.splice(this.products.findIndex( product => product.id === id ));
         return product;
@@ -131,7 +132,9 @@ class Store {
     }
 
     toString() {
-        return '';
+        let string = `Almacén ${this.id} => ${this.products.length} productos: ${this.totalImport().toFixed(2)} €`;
+        this.products.forEach((prod) => string += '\n- ' + prod);
+        return string;
     }
 }
 
