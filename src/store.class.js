@@ -81,7 +81,7 @@ class Store {
                 product.price < 0 ||
                 product.units < 0 ||
                 !Number.isInteger(product.units) ||
-                !this.getCategoryById(payload.category)) {
+                !this.getCategoryById(product.category)) {
                     throw `Los datos introducidos són incorrectos`;
                 } else {
                     this.products.push(product);

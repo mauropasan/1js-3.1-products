@@ -16,6 +16,7 @@ class View {
         tbodyUI.appendChild(productUI);
     }
 
+
     renderMessage(err) {
         const messageUI = document.getElementById('messages');
         messageUI.innerHTML = `
@@ -27,9 +28,19 @@ class View {
 
     renderCategory(category) {
         const categoryUI = document.createElement('option');
-        categoryUI.innerHTML = `<option value="${category.id}">${category.name}</option>`
+        categoryUI.value = category.id;
+        categoryUI.innerHTML = `${category.name}`;
         const optionUI = document.querySelector('#newprod-cat');
         optionUI.appendChild(categoryUI);
+    }
+
+    deleteCategoryRender(category) {
+        
+    }
+
+    renderTotalImport(store) {
+        const importUI = document.querySelector("#total-import");
+        importUI.innerHTML = `<th>${store.totalImport().toFixed(2)} €</th>`;
     }
 }
 
