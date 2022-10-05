@@ -65,7 +65,7 @@ class Store {
             this.categories.push(category);
         return category;
         }
-        throw `La categoria a la que es vol afegir te la mateixa id o el mateix nom`;
+        throw `La categoria que desea añadir ya existe`;
     }
 
     addProduct(payload) {
@@ -116,11 +116,7 @@ class Store {
     }
 
     totalImport() {
-        let total = 0;
-        for (let product of this.products) {
-            total += product.price * product.units;
-        }
-        return total;
+        return this.products.reduce((total, prod) => total + prod.productImport(), 0)
     }
 
     orderByUnitsDesc() {
