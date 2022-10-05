@@ -105,11 +105,7 @@ class Store {
     }
 
     totalImport() {
-        let total = 0;
-        for (let product of this.products) {
-            total += product.price;
-        }
-        return total;
+        return this.products.reduce((total, prod) => total += prod, 0);
     }
 
     orderByUnitsDesc() {
