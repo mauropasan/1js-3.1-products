@@ -32,6 +32,7 @@ class Controller {
     deleteProductFromStore(id) {
         try {
             const prod = this.store.delProduct(parseInt(id));
+            this.view.deleteProductRender(prod);
         } catch(err) {
             this.view.renderMessage(err);
         }
@@ -49,6 +50,7 @@ class Controller {
     deleteCategoryFromStore(id) {
         try {
             const cat = this.store.delCategory(parseInt(id));
+            this.view.deleteCategoryRender(cat);
         } catch(err) {
             this.view.renderMessage(err);
         }

@@ -21,7 +21,7 @@ class Store {
      }
 
     getCategoryById(id) {
-        let category = this.categories.find( category => category.id === id );
+        let category = this.categories.find( cat => cat.id === id );
         if (!category) {
             throw `No se ha encontrado la categoria con id ${id}`;
         }
@@ -29,7 +29,7 @@ class Store {
     }
 
     getCategoryByName(name) {
-        let category = this.categories.find( category => category.name.toLowerCase() === name.toLowerCase() );
+        let category = this.categories.find( cat => cat.name.toLowerCase() === name.toLowerCase() );
         if (!category) {
             throw `No se ha encontrado la categoria con nombre ${name}`;
         }
@@ -37,7 +37,7 @@ class Store {
     }
 
     getProductById(id) {
-        let product = this.products.find( product => product.id === id);
+        let product = this.products.find( prod => prod.id === id);
         if (!product) {
             throw `No se ha encontrado el producto con id ${id}`;
         }
@@ -45,7 +45,7 @@ class Store {
     }
 
     getProductsByCategory(id) {
-        let products = this.products.filter( product => product.category === id);
+        let products = this.products.filter( prod => prod.category === id);
         if (!products) {
             throw `No se ha encontrado productos con la categoria ${this.getCategoryById(id).name}`;
         }
@@ -96,7 +96,7 @@ class Store {
         let category = this.getCategoryById(id);
         let categoryProducts = this.getProductsByCategory(id);
         if (categoryProducts.length === 0) {
-            this.categories.splice(this.categories.findIndex( category => category.id === id ));
+            this.categories.splice(this.categories.findIndex( cat => cat.id === id ), 1 );
         } else {
             throw `Esta categoria tiene productos`;
         }
@@ -111,14 +111,14 @@ class Store {
         if (product.units > 0) {
             throw `El producto tiene stock`;
         }
-        this.products.splice(this.products.findIndex( product => product.id === id ));
+        this.products.splice(this.products.findIndex( prod => prod.id === id ), 1);
         return product;
     }
 
     totalImport() {
         let total = 0;
         for (let product of this.products) {
-            total += product.price;
+            total += product.price * product.units;
         }
         return total;
     }

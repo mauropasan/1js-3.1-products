@@ -2,6 +2,7 @@ class View {
 
     renderProduct(product) {
         const productUI = document.createElement('tr');
+        productUI.id = product.id;
         productUI.innerHTML = `
         <tr>
             <td>${product.id}</td>
@@ -14,6 +15,11 @@ class View {
         </tr>`
         const tbodyUI = document.querySelector('#almacen tbody');
         tbodyUI.appendChild(productUI);
+    }
+
+    deleteProductRender(product) {
+        const productUI = document.getElementById(`${product.id}`);
+        productUI.parentElement.removeChild(productUI);
     }
 
 
@@ -29,13 +35,14 @@ class View {
     renderCategory(category) {
         const categoryUI = document.createElement('option');
         categoryUI.value = category.id;
+        categoryUI.id = category.id;
         categoryUI.innerHTML = `${category.name}`;
         const optionUI = document.querySelector('#newprod-cat');
         optionUI.appendChild(categoryUI);
     }
 
     deleteCategoryRender(category) {
-        
+        document.querySelector(`#newprod-cat option[value="${category.id}"]`).remove(); 
     }
 
     renderTotalImport(store) {
