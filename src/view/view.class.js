@@ -25,11 +25,17 @@ class View {
 
     renderMessage(err) {
         const messageUI = document.getElementById('messages');
-        messageUI.innerHTML = `
-        <div class="alert alert-danger alert-dismissible" role="alert">
+        const div = document.createElement("div");
+        div.classList = `alert alert-danger alert-dismissible`;
+        div.setAttribute(`role`, `alert`);
+        div.innerHTML += `
     		${err}
-	    	<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" onclick="this.parentElement.remove()"></button>
-		</div>`;
+	    	<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" onclick="this.parentElement.remove()"></button>`;
+        messageUI.appendChild(div);
+
+        setTimeout(function() {
+            div.remove();
+        }, 3000);
     }
 
     renderCategory(category) {
