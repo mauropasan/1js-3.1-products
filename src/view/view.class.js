@@ -3,6 +3,16 @@ class View {
     renderProduct(product) {
         const productUI = document.createElement('tr');
         productUI.id = product.id;
+        this.renderInnerHTML(product, productUI);
+        return productUI;
+    }
+
+    renderPaintedProduct(product) {
+        const productUI = document.getElementById(`${product.id}`);
+        this.renderInnerHTML(product, productUI);
+    }
+
+    renderInnerHTML(product, productUI) {
         productUI.innerHTML = `
         <tr>
             <td>${product.id}</td>
@@ -11,8 +21,18 @@ class View {
             <td>${product.units}</td>
             <td>${product.price}/u</td>
             <td>${product.productImport()} €</td>
-            <td></td>
-        </tr>`
+            <td>
+                <button class="btn btn-danger del-prod">
+                    <span class="material-icons">delete</span>
+                </button>
+                <button class="btn btn-secondary raise-units">
+                    <span class="material-icons">arrow_drop_up</span>
+                </button>
+                <button class="btn btn-secondary lower-units" ${product.units === 0 ? `disabled` : ``}>
+                    <span class="material-icons">arrow_drop_down</span>
+                </button>
+            </td>
+        </tr>`;
         const tbodyUI = document.querySelector('#almacen tbody');
         tbodyUI.appendChild(productUI);
     }

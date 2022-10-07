@@ -11,7 +11,7 @@ class Controller {
     init() {
         this.store.init();
         this.store.products.forEach(prod => {
-            this.view.renderProduct(prod);
+            this.renderButtons(prod);
         });
         this.store.categories.forEach(cat => {
             this.view.renderCategory(cat);
@@ -22,7 +22,7 @@ class Controller {
     addProductToStore(payload) {
         try {
             const prod = this.store.addProduct(payload);
-            this.view.renderProduct(prod);
+            this.renderButtons(prod);
             this.view.renderTotalImport(this.store);
         } catch(err) {
             this.view.renderMessage(err);
@@ -54,6 +54,36 @@ class Controller {
         } catch(err) {
             this.view.renderMessage(err);
         }
+    }
+
+    renderButtons(prod) {
+        let prodRender = this.view.renderProduct(prod);
+        this.addDelButtonListener(prod, prodRender);
+        this.addRaiseButtonListener(prod, prodRender);
+        this.addLowerButtonListener(prod, prodRender);
+    }
+
+    addDelButtonListener(prod, prodRender) {
+        const delButton = prodRender.lastElementChild.firstElementChild;
+        delButton.addEventListener("click", () => {
+            this.deleteProductFromStore(prod.id);
+        });
+    }
+
+    addRaiseButtonListener(prod, prodRender) {
+        const raiseButton = prodRender.lastElementChild.firstElementChild.nextElementSibling;
+        raiseButton.addEventListener("click", () => {
+            prod.units++;
+            prodRender = this.view.renderPaintedProduct(prod);
+        });
+    }
+
+    addLowerButtonListener(prod, prodRender) {
+        const lowerButton = prodRender.lastElementChild.firstElementChild.nextElementSibling.nextElementSibling;
+        lowerButton.addEventListener("click", () => {
+            prod.units--;
+            prodRender = this.view.renderPaintedProduct(prod);
+        });
     }
 }
 

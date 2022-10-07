@@ -41,12 +41,6 @@ window.addEventListener('load', () => {
     myController.addCategoryToStore({ name, description });
   })
 
-  document.getElementById('del-prod').addEventListener('submit', (event) => {
-    event.preventDefault()
-
-    myController.deleteProductFromStore(document.getElementById('delprod-id').value)      
-  })
-
   document.getElementById('del-cat').addEventListener('submit', (event) => {
     event.preventDefault()
 
