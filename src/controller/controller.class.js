@@ -60,7 +60,11 @@ class Controller {
         let prodRender = this.view.renderProduct(prod);
         this.addDelButtonListener(prod, prodRender);
         this.addRaiseButtonListener(prod, prodRender);
-        this.addLowerButtonListener(prod, prodRender);
+        try {
+            this.addLowerButtonListener(prod, prodRender);
+        } catch(err) {
+            this.view.renderMessage(err);
+        }
     }
 
     addDelButtonListener(prod, prodRender) {
@@ -72,17 +76,30 @@ class Controller {
 
     addRaiseButtonListener(prod, prodRender) {
         const raiseButton = prodRender.lastElementChild.firstElementChild.nextElementSibling;
+        const lowerButton = prodRender.lastElementChild.lastElementChild.previousElementSibling;
         raiseButton.addEventListener("click", () => {
+            if(prod.units === 0) {
+                lowerButton.removeAttribute('disabled');
+            }
             prod.units++;
             prodRender = this.view.renderPaintedProduct(prod);
+            this.view.renderTotalImport(this.store);
         });
     }
 
     addLowerButtonListener(prod, prodRender) {
-        const lowerButton = prodRender.lastElementChild.firstElementChild.nextElementSibling.nextElementSibling;
+        const lowerButton = prodRender.lastElementChild.lastElementChild.previousElementSibling;
         lowerButton.addEventListener("click", () => {
-            prod.units--;
+            if(prod.units - 1 === -1) {
+                throw `No es pot baixar més de 0 unitats`;
+            } else {
+                prod.units--;
+                if(prod.units === 0) {
+                    lowerButton.setAttribute('disabled', '');
+                }
+            }
             prodRender = this.view.renderPaintedProduct(prod);
+            this.view.renderTotalImport(this.store);
         });
     }
 }

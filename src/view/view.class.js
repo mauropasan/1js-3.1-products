@@ -3,16 +3,6 @@ class View {
     renderProduct(product) {
         const productUI = document.createElement('tr');
         productUI.id = product.id;
-        this.renderInnerHTML(product, productUI);
-        return productUI;
-    }
-
-    renderPaintedProduct(product) {
-        const productUI = document.getElementById(`${product.id}`);
-        this.renderInnerHTML(product, productUI);
-    }
-
-    renderInnerHTML(product, productUI) {
         productUI.innerHTML = `
         <tr>
             <td>${product.id}</td>
@@ -25,16 +15,29 @@ class View {
                 <button class="btn btn-danger del-prod">
                     <span class="material-icons">delete</span>
                 </button>
-                <button class="btn btn-secondary raise-units">
+                <button class="btn btn-secondary btn-dark raise-units">
                     <span class="material-icons">arrow_drop_up</span>
                 </button>
-                <button class="btn btn-secondary lower-units" ${product.units === 0 ? `disabled` : ``}>
+                <button class="btn btn-secondary btn-dark lower-units" ${product.units === 0 ? `disabled` : ``}>
                     <span class="material-icons">arrow_drop_down</span>
+                </button>
+                <button class="btn btn-default btn-dark edit">
+                    <span class="material-icons">edit</span>
                 </button>
             </td>
         </tr>`;
         const tbodyUI = document.querySelector('#almacen tbody');
         tbodyUI.appendChild(productUI);
+        return productUI;
+    }
+
+    renderPaintedProduct(product) {
+        const productUI = document.getElementById(`${product.id}`);
+        productUI.firstElementChild.nextElementSibling.innerHTML = `${product.name}`;
+        productUI.firstElementChild.nextElementSibling.nextElementSibling.innerHTML = `${product.category}`;
+        productUI.firstElementChild.nextElementSibling.nextElementSibling.nextElementSibling.innerHTML = `${product.units}`;
+        productUI.lastElementChild.previousElementSibling.previousElementSibling.innerHTML = `${product.price}/u`;
+        productUI.lastElementChild.previousElementSibling.innerHTML = `${product.productImport().toFixed(2)} €`;
     }
 
     deleteProductRender(product) {
