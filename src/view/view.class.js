@@ -38,6 +38,9 @@ class View {
         productUI.querySelector(".units").innerHTML = `${product.units}`;
         productUI.querySelector(".price").innerHTML = `${product.price.toFixed(2)}/u`;
         productUI.querySelector(".import").innerHTML = `${product.productImport().toFixed(2)} €`;
+        if(product.units > 0) {
+            productUI.querySelector(".lower-units").removeAttribute("disabled");
+        }
     }
 
     deleteProductRender(product) {
