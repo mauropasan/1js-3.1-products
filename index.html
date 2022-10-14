@@ -69,7 +69,7 @@
 					<div class="col-sm-6 col-md-4 col-lg-4">
 						<form id="new-prod">
 							<fieldset>
-								<legend class="bg-dark text-white text-center">Añadir producto</legend>
+								<legend class="bg-dark text-white text-center title">Añadir producto</legend>
 								<!-- Aquí los inputs y botones del form -->
 								<div class="form-group">
 									<label for="newprod-id">ID:</label>
@@ -77,26 +77,26 @@
 								</div>
 								<div class="form-group">
 									<label for="newprod-name">Nombre:</label>
-									<input type="text" id="newprod-name" class="form-control" id="newprod-name">
+									<input type="text" id="newprod-name" class="form-control" id="newprod-name" required>
 								</div>
 								<div class="form-group">
 									<label for="newprod-cat">Categoría:</label>
-									<select class="form-control" id="newprod-cat">
+									<select class="form-control" id="newprod-cat" required>
 										<option value="">--- Selecciona categoría ---</option>
-										</select>
+									</select>
 								</div>
 
 								<div class="form-group">
 									<label for="newprod-units">Unidades.:</label>
-									<input type="number" class="form-control" id="newprod-units">
+									<input type="number" class="form-control" id="newprod-units" min="0">
 								</div>
 								<div class="form-group">
 									<label for="newprod-price">Precio/u.:</label>
-									<input type="number" id="newprod-price" class="form-control" id="newprod-price">
+									<input type="number" id="newprod-price" class="form-control" id="newprod-price" required step="0.01" min="0">
 								</div>
 								<br>
-								<button type="submit" class="btn btn-default btn-dark">Añadir</button>
-								<button type="reset" class="btn btn-danger">Reset</button>
+								<button type="submit" class="btn btn-default btn-dark submit">Añadir</button>
+								<button type="reset" class="btn btn-danger reset">Reset</button>
 							</fieldset>
 						</form>
 					</div>
@@ -111,7 +111,7 @@
 								</div>
 								<div class="form-group">
 									<label for="newcat-name">Nombre:</label>
-									<input type="text" class="form-control" id="newcat-name">
+									<input type="text" class="form-control" id="newcat-name" required>
 								</div>
 								<div class="form-group">
 									<label for="newcat-description">Descripción:</label>
@@ -129,7 +129,7 @@
 								<!-- Aquí los inputs y botones del form -->
 								<div class="form-group">
 									<label for="delcat-id">ID:</label>
-									<input type="text" class="form-control" id="delcat-id">
+									<input type="text" class="form-control" id="delcat-id" required>
 								</div>
 								<br>
 								<button type="submit" class="btn btn-default btn-dark">Eliminar</button>

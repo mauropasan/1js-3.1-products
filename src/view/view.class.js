@@ -6,15 +6,12 @@ class View {
         productUI.innerHTML = `
         <tr>
             <td>${product.id}</td>
-            <td>${product.name}</td>
-            <td>${product.category}</td>
-            <td>${product.units}</td>
-            <td>${product.price}/u</td>
-            <td>${product.productImport()} €</td>
+            <td class="name">${product.name}</td>
+            <td class="category">${product.category}</td>
+            <td class="units">${product.units}</td>
+            <td class="price">${product.price.toFixed(2)}/u</td>
+            <td class="import">${product.productImport().toFixed(2)} €</td>
             <td>
-                <button class="btn btn-danger del-prod">
-                    <span class="material-icons">delete</span>
-                </button>
                 <button class="btn btn-secondary btn-dark raise-units">
                     <span class="material-icons">arrow_drop_up</span>
                 </button>
@@ -23,6 +20,9 @@ class View {
                 </button>
                 <button class="btn btn-default btn-dark edit">
                     <span class="material-icons">edit</span>
+                </button>
+                <button class="del-prod btn btn-danger">
+                    <span class="material-icons">delete</span>
                 </button>
             </td>
         </tr>`;
@@ -33,11 +33,11 @@ class View {
 
     renderPaintedProduct(product) {
         const productUI = document.getElementById(`${product.id}`);
-        productUI.firstElementChild.nextElementSibling.innerHTML = `${product.name}`;
-        productUI.firstElementChild.nextElementSibling.nextElementSibling.innerHTML = `${product.category}`;
-        productUI.firstElementChild.nextElementSibling.nextElementSibling.nextElementSibling.innerHTML = `${product.units}`;
-        productUI.lastElementChild.previousElementSibling.previousElementSibling.innerHTML = `${product.price}/u`;
-        productUI.lastElementChild.previousElementSibling.innerHTML = `${product.productImport().toFixed(2)} €`;
+        productUI.querySelector(".name").innerHTML = `${product.name}`;
+        productUI.querySelector(".category").innerHTML = `${product.category}`;
+        productUI.querySelector(".units").innerHTML = `${product.units}`;
+        productUI.querySelector(".price").innerHTML = `${product.price.toFixed(2)}/u`;
+        productUI.querySelector(".import").innerHTML = `${product.productImport().toFixed(2)} €`;
     }
 
     deleteProductRender(product) {

@@ -28,6 +28,20 @@ class Controller {
             this.view.renderMessage(err);
         }
     }
+
+    editProductFromStore(payload) {
+        try {
+            const id = payload.id;
+            const name = payload.name;
+            const price = payload.price;
+            const category = payload.category;
+            const units = payload.units;
+            const newProd = this.store.modProd({id, name, price, category, units});
+            this.view.renderPaintedProduct(newProd);
+        } catch(err) {
+            this.view.renderMessage(err);
+        }
+    }
     
     deleteProductFromStore(id) {
         try {
@@ -65,18 +79,19 @@ class Controller {
         } catch(err) {
             this.view.renderMessage(err);
         }
+        this.addEditButtonListener(prod, prodRender);
     }
 
     addDelButtonListener(prod, prodRender) {
-        const delButton = prodRender.lastElementChild.firstElementChild;
+        const delButton = prodRender.querySelector(".del-prod");
         delButton.addEventListener("click", () => {
             this.deleteProductFromStore(prod.id);
         });
     }
 
     addRaiseButtonListener(prod, prodRender) {
-        const raiseButton = prodRender.lastElementChild.firstElementChild.nextElementSibling;
-        const lowerButton = prodRender.lastElementChild.lastElementChild.previousElementSibling;
+        const raiseButton = prodRender.querySelector(".raise-units");
+        const lowerButton = prodRender.querySelector(".lower-units");
         raiseButton.addEventListener("click", () => {
             if(prod.units === 0) {
                 lowerButton.removeAttribute('disabled');
@@ -88,9 +103,9 @@ class Controller {
     }
 
     addLowerButtonListener(prod, prodRender) {
-        const lowerButton = prodRender.lastElementChild.lastElementChild.previousElementSibling;
+        const lowerButton = prodRender.querySelector(".lower-units");
         lowerButton.addEventListener("click", () => {
-            if(prod.units - 1 === -1) {
+            if(prod.units === 0) {
                 throw `No es pot baixar més de 0 unitats`;
             } else {
                 prod.units--;
@@ -101,6 +116,31 @@ class Controller {
             prodRender = this.view.renderPaintedProduct(prod);
             this.view.renderTotalImport(this.store);
         });
+    }
+
+    addEditButtonListener(prod, prodRender) {
+        const editButton = prodRender.querySelector(".edit");
+        editButton.addEventListener("click", () => {
+            const form = document.querySelector("#new-prod");
+            form.querySelector(".title").innerHTML = "Modificar producto" ;
+            form.querySelector(".submit").innerHTML = "Modificar";
+            const id = document.getElementById('newprod-id');
+            const name = document.getElementById('newprod-name');
+            const category = document.getElementById('newprod-cat');
+            const price = document.getElementById('newprod-price');
+            const units = document.getElementById('newprod-units');
+            id.value = `${prod.id}`;
+            name.value = `${prod.name}`;
+            category.value = `${prod.category}`;
+            price.value = `${prod.price}`;
+            units.value = `${prod.units}`;
+        });
+        const form = document.querySelector("#new-prod");
+        const resetButton = form.querySelector(".reset");
+        resetButton.addEventListener("click", () => {
+            document.querySelector(".title").innerHTML = "Añadir producto";
+            document.querySelector(".submit").innerHTML = "Añadir";
+        })
     }
 }
 

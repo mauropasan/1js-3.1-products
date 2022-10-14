@@ -14,6 +14,7 @@ window.addEventListener('load', () => {
     event.preventDefault()
 
     // Aquí el código para obtener los datos del formulario
+    const id = parseInt(document.getElementById("newprod-id").value);
     const name = document.getElementById('newprod-name').value
     const price = parseInt(document.getElementById('newprod-price').value);
     const category = parseInt(document.getElementById('newprod-cat').value);
@@ -22,7 +23,7 @@ window.addEventListener('load', () => {
     
     // Aquí llamamos a la función del controlador que añade productos (addProductToStore)
     // pasándole como parámetro esos datos
-    myController.addProductToStore({ name, price, category, units });
+    id === "" ? myController.addProductToStore({ name, price, category, units }) : myController.editProductFromStore({id, name, price, category, units});
     // Sintaxis de ES2015 que equivale a 
     //
     // myController.addProductToStore(

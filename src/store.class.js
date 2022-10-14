@@ -115,6 +115,15 @@ class Store {
         return product;
     }
 
+    modProd(payload) {
+        let prod = this.getProductById(payload.id);
+        prod.name = payload.name;
+        prod.category = payload.category;
+        prod.units = payload.units;
+        prod.price = payload.price;
+        return prod;
+    }
+
     totalImport() {
         return this.products.reduce((total, prod) => total + prod.productImport(), 0)
     }
