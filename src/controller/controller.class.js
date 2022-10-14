@@ -93,7 +93,7 @@ class Controller {
         const raiseButton = prodRender.querySelector(".raise-units");
         const lowerButton = prodRender.querySelector(".lower-units");
         raiseButton.addEventListener("click", () => {
-            if(prod.units === 0) {
+            if(prod.units >= 0) {
                 lowerButton.removeAttribute('disabled');
             }
             prod.units++;
