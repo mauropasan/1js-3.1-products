@@ -113,7 +113,7 @@ class View {
 
     renderTotalImport(store) {
         const importUI = document.querySelector("#total-import");
-        importUI.innerHTML = `<th>${store.totalImport().toFixed(2)} €</th>`;
+        importUI.innerHTML = `${store.totalImport().toFixed(2)} €`;
     }
 }
 
