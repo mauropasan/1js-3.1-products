@@ -121,7 +121,7 @@ class Controller {
         const lowerButton = prodRender.querySelector(".lower-units");
         lowerButton.addEventListener('click', () => {
             if(prod.units === 0) {
-                throw `No es pot baixar més de 0 unitats`;
+                throw `No se puede bajar menos de 0 unidades`;
             } else {
                 prod.units--;
                 if(prod.units === 0) {
