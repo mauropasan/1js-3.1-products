@@ -103,6 +103,13 @@ class Store {
         return category;
     }
 
+    modCat(payload) {
+        let cat = this.getCategoryById(payload.id);
+        cat.name = payload.name;
+        cat.description = payload.description;
+        return cat;
+    }
+
     delProduct(id) {
         let product = this.getProductById(id);
         if (!product) {

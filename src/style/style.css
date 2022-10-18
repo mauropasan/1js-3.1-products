@@ -1,0 +1,7 @@
+.new-prod, .new-cat, .almacen, .category-list, .about-us {
+    display: none;
+}
+
+.new-prod-show, .new-cat-show, .almacen-show, .category-list-show, .about-us-show {
+    display: block;
+}

@@ -9,6 +9,7 @@
 	<!-- CSS only -->
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link href="src/style/style.css" rel="stylesheet">
 </head>
 <body>
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -16,11 +17,11 @@
 		  <span class="navbar-brand" href="#">Almacén ACME</span>
 		  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
 			<div class="navbar-nav">
-			  <a class="nav-link active" aria-current="page" href="#">Productos</a>
-			  <a class="nav-link" href="#">Categorías</a>
-			  <a class="nav-link" href="#">Añadir producto</a>
-			  <a class="nav-link" href="#">Añadir categoría</a>
-			  <a class="nav-link" href="#">Sobre nosotros</a>
+			  <a class="nav-link products-page active" aria-current="page" href="#">Productos</a>
+			  <a class="nav-link categories-page" href="#">Categorías</a>
+			  <a class="nav-link new-prod-page" href="#">Añadir producto</a>
+			  <a class="nav-link new-cat-page" href="#">Añadir categoría</a>
+			  <a class="nav-link about-us-page" href="#">Sobre nosotros</a>
 			</div>
 		  </div>
 		</div>
@@ -38,7 +39,7 @@
 
         <!-- Almacén de productos -->
         <div class="row">
-            <div class="col-sm-12 col-md-12 col-lg-12" id="almacen">
+            <div class="col-sm-12 col-md-12 col-lg-12 almacen" id="almacen">
                 <table class="table table-striped table-hover table-responsive">
                     <thead class="bg-dark">
                         <tr class="text-white text-center">
@@ -63,11 +64,30 @@
             </div>
         </div>
 
+		<!-- Lista de categorias -->
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12 category-list" id="category-list">
+                <table class="table table-striped table-hover table-responsive">
+                    <thead class="bg-dark">
+                        <tr class="text-white text-center">
+                            <th>Id</th>
+                            <th>Nombre</th>
+							<th>Descripción</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Aquí insertaremos los productos-->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
 
 		        <!-- Acciones sobre el almacén -->
 				<div class="row">
 					<div class="col-sm-6 col-md-4 col-lg-4">
-						<form id="new-prod">
+						<form id="new-prod" class="new-prod">
 							<fieldset>
 								<legend class="bg-dark text-white text-center title">Añadir producto</legend>
 								<!-- Aquí los inputs y botones del form -->
@@ -100,8 +120,10 @@
 							</fieldset>
 						</form>
 					</div>
+				</div>
+				<div class="row">
 					<div class="col-sm-6 col-md-4 col-lg-4">
-						<form id="new-cat">
+						<form id="new-cat" class="new-cat">
 							<fieldset>
 								<legend class="bg-dark text-white text-center">Añadir categoría</legend>
 								<!-- Aquí los inputs y botones del form -->
@@ -122,24 +144,10 @@
 							</fieldset>
 						</form>
 					</div>
-					<div class="col-sm-6 col-md-4 col-lg-4">
-						<form id="del-cat">
-							<fieldset>
-								<legend class="bg-dark text-white text-center">Eliminar categoría</legend>
-								<!-- Aquí los inputs y botones del form -->
-								<div class="form-group">
-									<label for="delcat-id">ID:</label>
-									<input type="text" class="form-control" id="delcat-id" required>
-								</div>
-								<br>
-								<button type="submit" class="btn btn-default btn-dark">Eliminar</button>
-								<button type="reset" class="btn btn-danger">Reset</button>
-							</fieldset>
-						</form>
-					</div>
 				</div>
-		
-		
+		<div class="row about-us" id="about-us">
+			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+		</div>
 	<footer><small>Diseño Web en Entorno Cliente - Juan Segura</small></footer>
     <script src="./dist/main.js"></script>
 </body>

@@ -2,11 +2,11 @@ class View {
 
     renderProduct(product) {
         const productUI = document.createElement('tr');
-        productUI.id = product.id;
+        productUI.id = `prod${product.id}`;
         productUI.innerHTML = `
         <tr>
             <td>${product.id}</td>
-            <td class="name">${product.name}</td>
+            <td class="product-name">${product.name}</td>
             <td class="category">${product.category}</td>
             <td class="units">${product.units}</td>
             <td class="price">${product.price.toFixed(2)}/u</td>
@@ -32,22 +32,56 @@ class View {
     }
 
     renderPaintedProduct(product) {
-        const productUI = document.getElementById(`${product.id}`);
-        productUI.querySelector(".name").innerHTML = `${product.name}`;
+        const productUI = document.getElementById(`prod${product.id}`);
+        productUI.querySelector(".product-name").innerHTML = `${product.name}`;
         productUI.querySelector(".category").innerHTML = `${product.category}`;
         productUI.querySelector(".units").innerHTML = `${product.units}`;
         productUI.querySelector(".price").innerHTML = `${product.price.toFixed(2)}/u`;
         productUI.querySelector(".import").innerHTML = `${product.productImport().toFixed(2)} €`;
         if(product.units > 0) {
             productUI.querySelector(".lower-units").removeAttribute("disabled");
+        } else {
+            productUI.querySelector(".lower-units").setAttribute("disabled", "");
         }
     }
 
     deleteProductRender(product) {
-        const productUI = document.getElementById(`${product.id}`);
+        const productUI = document.getElementById(`prod${product.id}`);
         productUI.parentElement.removeChild(productUI);
     }
 
+    renderCategory(category) {
+        const categoryUI = document.createElement('tr');
+        categoryUI.id = `cat${category.id}`;
+        categoryUI.innerHTML = `
+        <tr>
+            <td>${category.id}</td>
+            <td class="category-name">${category.name}</td>
+            <td class="description">${category.description}</td>
+            <td>
+                <button class="edit-cat btn btn-dark">
+                    <span class="material-icons">edit</span>
+                </button>
+                <button class="del-cat btn btn-danger">
+                    <span class="material-icons">delete</span>
+                </button>
+            </td>
+        </tr>`;
+        const tbodyUI = document.querySelector('#category-list tbody');
+        tbodyUI.appendChild(categoryUI);
+        return categoryUI;
+    }
+
+    renderPaintedCategory(category) {
+        const categoryUI = document.getElementById(`cat${category.id}`);
+        categoryUI.querySelector(".category-name").innerHTML = `${category.name}`;
+        categoryUI.querySelector(".description").innerHTML = `${category.description}`;
+    }
+
+    deleteCategoryRender(category) {
+        const categoryUI = document.getElementById(`cat${category.id}`)
+        categoryUI.parentElement.removeChild(categoryUI);
+    }
 
     renderMessage(err) {
         const messageUI = document.getElementById('messages');
@@ -64,7 +98,7 @@ class View {
         }, 3000);
     }
 
-    renderCategory(category) {
+    renderCategoryOption(category) {
         const categoryUI = document.createElement('option');
         categoryUI.value = category.id;
         categoryUI.id = category.id;
@@ -73,7 +107,7 @@ class View {
         optionUI.appendChild(categoryUI);
     }
 
-    deleteCategoryRender(category) {
+    deleteCategoryOptionRender(category) {
         document.querySelector(`#newprod-cat option[value="${category.id}"]`).remove(); 
     }
 
