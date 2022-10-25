@@ -141,16 +141,11 @@ class Controller {
             const form = document.querySelector('#new-prod');
             form.querySelector('.title').innerHTML = "Modificar producto";
             form.querySelector('.submit').innerHTML = "Modificar";
-            const id = document.getElementById('newprod-id');
-            const name = document.getElementById('newprod-name');
-            const category = document.getElementById('newprod-cat');
-            const price = document.getElementById('newprod-price');
-            const units = document.getElementById('newprod-units');
-            id.value = `${prod.id}`;
-            name.value = `${prod.name}`;
-            category.value = `${prod.category}`;
-            price.value = `${prod.price}`;
-            units.value = `${prod.units}`;
+            document.getElementById('newprod-id').value = `${prod.id}`;
+            document.getElementById('newprod-name').value = `${prod.name}`;
+            document.getElementById('newprod-cat').value = `${prod.category}`;
+            document.getElementById('newprod-price').value = `${prod.price}`;
+            document.getElementById('newprod-units').value = `${prod.units}`;
         });
         const form = document.querySelector('#new-prod');
         const resetButton = form.querySelector('.reset');
@@ -189,51 +184,51 @@ class Controller {
     showProducts(event) {
         event.preventDefault();
         document.querySelector("div h1").innerHTML = "Listado de productos";
-        document.getElementById("new-cat").className = "new-cat";
-        document.getElementById("new-prod").className = "new-prod";
-        document.getElementById("almacen").className = "almacen-show";
-        document.getElementById("category-list").className = "category-list";
-        document.getElementById('about-us').className = "about-us";
+        document.getElementById("new-cat").className = "hide";
+        document.getElementById("new-prod").className = "hide";
+        document.getElementById("almacen").className = "show";
+        document.getElementById("category-list").className = "hide";
+        document.getElementById('about-us').className = "hide";
     }
 
     showCategories(event) {
         event.preventDefault();
         document.querySelector("div h1").innerHTML = "Listado de categorías";
-        document.getElementById("new-cat").className = "new-cat";
-        document.getElementById("new-prod").className = "new-prod";
-        document.getElementById("almacen").className = "almacen";
-        document.getElementById("category-list").className = "category-list-show";
-        document.getElementById('about-us').className = "about-us";
+        document.getElementById("new-cat").className = "hide";
+        document.getElementById("new-prod").className = "hide";
+        document.getElementById("almacen").className = "hide";
+        document.getElementById("category-list").className = "show";
+        document.getElementById('about-us').className = "hide";
     }
 
     showProductForm(event) {
         event.preventDefault();
-        document.querySelector("div h1").innerHTML = "Añadir un producto nuevo";
-        document.getElementById("almacen").className = "almacen";
-        document.getElementById("new-cat").className = "new-cat";
-        document.getElementById("new-prod").className = "new-prod-show";
-        document.getElementById("category-list").className = "category-list";
-        document.getElementById('about-us').className = "about-us";
+        document.querySelector("div h1").innerHTML = "Formulario producto";
+        document.getElementById("almacen").className = "hide";
+        document.getElementById("new-cat").className = "hide";
+        document.getElementById("new-prod").className = "show";
+        document.getElementById("category-list").className = "hide";
+        document.getElementById('about-us').className = "hide";
     }
 
     showCategoryForm(event) {
         event.preventDefault();
-        document.querySelector("div h1").innerHTML = "Añadir una categoría nueva";
-        document.getElementById("almacen").className = "almacen";
-        document.getElementById("new-prod").className = "new-prod";
-        document.getElementById("new-cat").className = "new-prod-show";
-        document.getElementById("category-list").className = "category-list";
-        document.getElementById('about-us').className = "about-us";
+        document.querySelector("div h1").innerHTML = "Formulario categoría";
+        document.getElementById("almacen").className = "hide";
+        document.getElementById("new-prod").className = "hide";
+        document.getElementById("new-cat").className = "show";
+        document.getElementById("category-list").className = "hide";
+        document.getElementById('about-us').className = "hide";
     }
 
     showAboutUs(event) {
         event.preventDefault();
         document.querySelector("div h1").innerHTML = "Sobre nosotros";
-        document.getElementById("almacen").className = "almacen";
-        document.getElementById("new-prod").className = "new-prod";
-        document.getElementById("new-cat").className = "new-prod";
-        document.getElementById("category-list").className = "category-list";
-        document.getElementById('about-us').className = "about-us-show";
+        document.getElementById("almacen").className = "hide";
+        document.getElementById("new-prod").className = "hide";
+        document.getElementById("new-cat").className = "hide";
+        document.getElementById("category-list").className = "hide";
+        document.getElementById('about-us').className = "show";
     }
 }
 
