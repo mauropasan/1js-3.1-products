@@ -5,7 +5,7 @@ class Controller {
 
     constructor() {
         this.store = new Store(1, 'Almacén ACME'),
-        this.view = new View
+            this.view = new View
     }
 
     init() {
@@ -18,6 +18,75 @@ class Controller {
             this.renderCatButtons(cat);
         });
         this.view.renderTotalImport(this.store);
+        this.setListeners();
+    }
+
+    setListeners() {
+        window.addEventListener('load', (event) => {
+            this.showProducts(event);
+            document.getElementById('new-prod').addEventListener('submit', (event) => {
+                event.preventDefault();
+
+                if (this.checkProductValidity()) {
+                    const id = document.getElementById("newprod-id").value;
+                    const name = document.getElementById('newprod-name').value
+                    const price = parseInt(document.getElementById('newprod-price').value);
+                    const category = parseInt(document.getElementById('newprod-cat').value);
+                    const units = parseInt(document.getElementById('newprod-units').value);
+                    this.showProducts(event);
+
+                    id === "" ? this.addProductToStore({ name, price, category, units }) : this.editProductFromStore({ id, name, price, category, units });
+                    document.getElementById('new-prod').reset();
+                }
+            });
+
+            document.querySelector(".products-page").addEventListener('click', (event) => {
+                this.showProducts(event);
+            });
+
+            document.querySelector(".categories-page").addEventListener('click', (event) => {
+                this.showCategories(event);
+            });
+
+            document.querySelector(".new-prod-page").addEventListener('click', (event) => {
+                this.showProductForm(event);
+            });
+
+            document.getElementById('new-cat').addEventListener('submit', (event) => {
+                this.showCategories(event);
+
+                const id = document.getElementById('newcat-id').value;
+                const name = document.getElementById('newcat-name').value
+                const description = document.getElementById('newcat-description').value;
+
+                id === "" ? this.addCategoryToStore({ name, description }) : this.editCategoryFromStore({ id, name, description });
+                document.getElementById('new-cat').reset();
+            });
+
+            document.querySelector(".new-cat-page").addEventListener('click', (event) => {
+                this.showCategoryForm(event);
+            });
+
+            document.querySelector(".about-us-page").addEventListener('click', (event) => {
+                this.showAboutUs(event);
+            });
+        });
+    };
+
+    checkProductValidity() {
+        if (this.store.hasSameProductName(document.getElementById('newprod-id').value, document.getElementById('newprod-name').value )) {
+            document.getElementById('newprod-name').setCustomValidity("No pueden haber dos productos con el mismo nombre");
+            document.getElementById('newprod-name').nextElementSibling.innerHTML = document.getElementById('newprod-name').validationMessage;
+            return false;
+        } else {
+            document.getElementById('newprod-name').setCustomValidity("");
+            document.getElementById('newprod-name').nextElementSibling.innerHTML = document.getElementById('newprod-name').validationMessage;
+        }
+        const inputs = [ 'newprod-name', 'newprod-cat', 'newprod-units', 'newprod-price'];
+        inputs.forEach((inputId) => {
+            document.getElementById(inputId).nextElementSibling.innerHTML = document.getElementById(inputId).validationMessage;
+        });
+        return document.getElementById('new-prod').checkValidity();
     }
 
     addProductToStore(payload) {
@@ -25,7 +94,7 @@ class Controller {
             const prod = this.store.addProduct(payload);
             this.renderButtons(prod);
             this.view.renderTotalImport(this.store);
-        } catch(err) {
+        } catch (err) {
             this.view.renderMessage(err);
         }
     }
@@ -37,19 +106,19 @@ class Controller {
             const price = payload.price;
             const category = payload.category;
             const units = payload.units;
-            const newProd = this.store.modProd({id, name, price, category, units});
+            const newProd = this.store.modProd({ id, name, price, category, units });
             this.view.renderPaintedProduct(newProd);
             this.view.renderTotalImport(this.store);
-        } catch(err) {
+        } catch (err) {
             this.view.renderMessage(err);
         }
     }
-    
+
     deleteProductFromStore(id) {
         try {
             const prod = this.store.delProduct(parseInt(id));
             this.view.deleteProductRender(prod);
-        } catch(err) {
+        } catch (err) {
             this.view.renderMessage(err);
         }
     }
@@ -59,7 +128,7 @@ class Controller {
             const cat = this.store.addCategory(payload.name, payload.description);
             this.view.renderCategoryOption(cat);
             this.renderCatButtons(cat);
-        } catch(err) {
+        } catch (err) {
             this.view.renderMessage(err);
         }
     }
@@ -69,9 +138,9 @@ class Controller {
             const id = parseInt(payload.id);
             const name = payload.name;
             const description = payload.description;
-            const newCat = this.store.modCat({id, name, description});
+            const newCat = this.store.modCat({ id, name, description });
             this.view.renderPaintedCategory(newCat);
-        } catch(err) {
+        } catch (err) {
             this.view.renderMessage(err);
         }
     }
@@ -80,7 +149,7 @@ class Controller {
         try {
             const cat = this.store.delCategory(parseInt(id));
             this.view.deleteCategoryRender(cat);
-        } catch(err) {
+        } catch (err) {
             this.view.renderMessage(err);
         }
     }
@@ -91,7 +160,7 @@ class Controller {
         this.addRaiseUnitsButtonListener(prod, prodRender);
         try {
             this.addLowerUnitsButtonListener(prod, prodRender);
-        } catch(err) {
+        } catch (err) {
             this.view.renderMessage(err);
         }
         this.addEditProdButtonListener(prod, prodRender);
@@ -108,7 +177,7 @@ class Controller {
         const raiseButton = prodRender.querySelector('.raise-units');
         const lowerButton = prodRender.querySelector('.lower-units');
         raiseButton.addEventListener("click", () => {
-            if(prod.units >= 0) {
+            if (prod.units >= 0) {
                 lowerButton.removeAttribute('disabled');
             }
             prod.units++;
@@ -120,11 +189,11 @@ class Controller {
     addLowerUnitsButtonListener(prod, prodRender) {
         const lowerButton = prodRender.querySelector(".lower-units");
         lowerButton.addEventListener('click', () => {
-            if(prod.units === 0) {
+            if (prod.units === 0) {
                 throw `No se puede bajar menos de 0 unidades`;
             } else {
                 prod.units--;
-                if(prod.units === 0) {
+                if (prod.units === 0) {
                     lowerButton.setAttribute('disabled', '');
                 }
             }
