@@ -8,7 +8,7 @@ class Category {
     }
 
     toString() {
-        return `Categoria: ${this.name}, Descripció: ${this.description}`;
+        return `Categoria: ${this.name}, Descripció: ${this.description}`
     }
 
 }
